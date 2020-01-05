@@ -114,10 +114,12 @@ plunt = Menu(0,0,"pictures/Набросок_гл_меню.png" )
 # Применение цикла в классе
 plunt.menu()
 
+# Добавление звуков
 SoundHit1 = pygame.mixer.Sound("music/Звук_Шар1.ogg")
 SoundHit2 = pygame.mixer.Sound("music/Звук_Шар2.ogg")
 SoundHit3 = pygame.mixer.Sound("music/Звук_Шар3.ogg")
 Goal = pygame.mixer.Sound("music/Goal.ogg")
+# Рандомазейр звков для ударов
 def RandPlay():
         s = random.randrange(0,3)
         if s == 0:
@@ -201,9 +203,11 @@ while not done:
     # Отталкивание мячика от стен по у
     if y > 490 or y < 0:
         ys = ys * -1
+        # рандомный звук при столкновение верхних стен
         RandPlay()
     if x > 690 or x < 0:
         xs = xs * -1
+        # рандомный звук при столкновение верхних стен
         RandPlay()
 
     # Зачисление очков при попадание шарика
@@ -214,6 +218,7 @@ while not done:
         x = 345
         y = 255
         score1 += 1
+        # Звук гола при проходе мячика за ракетку
         Goal.play()
         y1 = 225
         y2 = 225
@@ -223,6 +228,7 @@ while not done:
         x = 345
         y = 255
         score2 += 1
+        # Звук гола при проходе мячика за ракетку
         Goal.play()
         y1 = 225
         y2 = 225
@@ -233,6 +239,7 @@ while not done:
         #Ускоритель шарика
             xs += 0.1
             ys += 0.1
+            # Рандомный звук при ударе с ракеткой
             RandPlay()
     if 660 < x + 10 < 663 and y2-10 < y < y2 + 60:
         if 660 < x + 10 < 663 and y2-10 < y+10 < y2 + 60:
@@ -240,6 +247,7 @@ while not done:
             #Ускоритель шарика
             xs -= 0.1
             ys -= 0.1
+            # Рандомный звук при ударе с ракеткой
             RandPlay()
 
     # Если вы хотите задний фон, поместись здесь
