@@ -1,2 +1,2 @@
 # Ping-Pong
-This is clon of popular arcade game Pong by my own
+This is clone of popular arcade game Pong by my own
