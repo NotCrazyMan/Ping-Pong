@@ -231,6 +231,7 @@ while not done:
         if 30 < x < 33 and y1-10 < y+10 < y1 + 60:
             xs = xs * -1
         #Ускоритель шарика
+        if not(xs >= -3):
             xs += 0.1
             ys += 0.1
             RandPlay()
