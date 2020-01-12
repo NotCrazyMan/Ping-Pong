@@ -17,9 +17,12 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Ping-Pong_Original")
 # Шрифт
 font = pygame.font.Font(None, 40)
+font = pygame.font.Font(None, 30)
 # Счётчик голов
 score1 = 0
 score2 = 0
+On = "Sound On"
+Off = "Sound Off"
 
 # Координаты мячика
 x = 345
@@ -58,7 +61,7 @@ yh = 0
 # скорость мячика
 xs = 0
 ys = 0
-
+SoundSettings = 0
 
 # --------- Создание гл. Меню ---------
 class Menu():
@@ -86,6 +89,15 @@ class Menu():
         # Правый нижний угл Quit
         q_p1_x = quit_pos1[0]
         q_p1_y = quit_pos1[1]
+        # Вкл/Выкл Звука
+        Sound_pos = (662, 4)
+        Sound_pos1 = (694, 36)
+        # Левый верхний угол
+        s_p_x = Sound_pos[0]
+        s_p_y = Sound_pos[1]
+        # Правый нижный угол
+        s_p1_x = Sound_pos1[0]
+        s_p1_y = Sound_pos1[1]
         # ---- Гл. Цикл гл. меню ----
         while done:
             for event in pygame.event.get():
@@ -102,10 +114,18 @@ class Menu():
                         done = False
                     elif q_p_x < posx < q_p1_x and q_p_y < posy < q_p1_y:
                         sys.exit()
+                    elif s_p_x < posx < s_p1_x and s_p_y < posy < s_p1_y:
+                            SoundSettings = 1
                     # Выход из игры через кнопку ESCAPE
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
+            #    test_s = font.render(On, True, BLACK)
+            #    test_s1 = font.render(Off, True, BLACK)
+            #    if SoundSettings == 0:
+            #        screen.blit(text_s, [420, 410])
+            #    if SoundSettings == 1:
+                    ##screen.blit(text_1, [420, 410])
 
             screen.blit(self.bitmap, (self.x, self.y))
             pygame.display.flip()
@@ -115,19 +135,22 @@ plunt = Menu(0,0,"pictures/Набросок_гл_меню.png" )
 plunt.menu()
 
 # Добавление звуков
-SoundHit1 = pygame.mixer.Sound("music/Звук_Шар1.ogg")
-SoundHit2 = pygame.mixer.Sound("music/Звук_Шар2.ogg")
-SoundHit3 = pygame.mixer.Sound("music/Звук_Шар3.ogg")
-Goal = pygame.mixer.Sound("music/Goal.ogg")
-# Рандомазейр звков для ударов
-def RandPlay():
-        s = random.randrange(0,3)
-        if s == 0:
-            SoundHit1.play()
-        if s == 1:
-            SoundHit2.play()
-        if s == 2:
-            SoundHit3.play()
+pygame.mixer.pre_init(44100, -16, 1, 512)
+pygame.mixer.init()
+if SoundSettings == 0:
+    SoundHit1 = pygame.mixer.Sound("music/Звук_Шар1.ogg")
+    SoundHit2 = pygame.mixer.Sound("music/Звук_Шар2.ogg")
+    SoundHit3 = pygame.mixer.Sound("music/Звук_Шар3.ogg")
+    Goal = pygame.mixer.Sound("music/Goal.ogg")
+    # Рандомазейр звков для ударов
+    def RandPlay():
+            s = random.randrange(0,3)
+            if s == 0:
+                SoundHit1.play()
+            if s == 1:
+                SoundHit2.play()
+            if s == 2:
+                SoundHit3.play()
 
 # -------- Главный цикл -----------
 while not done:
@@ -204,11 +227,11 @@ while not done:
     if y > 490 or y < 0:
         ys = ys * -1
         # рандомный звук при столкновение верхних стен
-        RandPlay()
+        #RandPlay()
     if x > 690 or x < 0:
         xs = xs * -1
         # рандомный звук при столкновение верхних стен
-        RandPlay()
+        #RandPlay()
 
     # Зачисление очков при попадание шарика
     # на сторону противника
@@ -233,24 +256,28 @@ while not done:
         y1 = 225
         y2 = 225
     # Отталкивание мячика от ракеток
-    if 30 < x < 33 and y1-10 < y < y1 + 60:
-        if 30 < x < 33 and y1-10 < y+10 < y1 + 60:
+    if 30 < x < 34 and y1-8 < y < y1 + 62:
+        if 30 < x < 34 and y1-8 < y+10 < y1 + 62:
             xs = xs * -1
-        #Ускоритель шарика
+            # Рандомный звук при ударе с ракеткой
+            RandPlay()
+
         if not (xs and ys == 3 and -3):
+            #Ускоритель шарика
             xs += 0.1
             ys += 0.1
+
+    if 660 < x + 10 < 664 and y2-8 < y < y2 + 62:
+        if 660 < x + 10 < 664 and y2-8 < y+10 < y2 + 62:
+            xs = xs * -1
             # Рандомный звук при ударе с ракеткой
             RandPlay()
-    if 660 < x + 10 < 663 and y2-10 < y < y2 + 60:
-        if 660 < x + 10 < 663 and y2-10 < y+10 < y2 + 60:
-            xs = xs * -1
-            #Ускоритель шарика
+
         if not (xs and ys == 3 or -3):
+            #Ускоритель шарика
             xs -= 0.1
             ys -= 0.1
-            # Рандомный звук при ударе с ракеткой
-            RandPlay()
+
 
     # Если вы хотите задний фон, поместись здесь
     # Задний фон
