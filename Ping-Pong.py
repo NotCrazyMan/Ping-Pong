@@ -21,12 +21,10 @@ font = pygame.font.Font(None, 40)
 score1 = 0
 score2 = 0
 
-# Координаты мячика
-x = 345
-y = 255
 # Координаты левой ракетки
 y1 = 225
 y1s = 0
+
 # Координаты правой ракетки
 y2 = 225
 y2s = 0
@@ -47,10 +45,8 @@ background_image = pygame.image.load("pictures/Поле пинг-понг.png").
 player_image = pygame.image.load("pictures/Ракетка левая.png").convert()
 # Загружаем спрайт правой ракетки
 player_image1 = pygame.image.load("pictures/Ракетка правая.png").convert()
-# Загружаем спрайт мячика
-ball_image = pygame.image.load("pictures/Мяч пин-понг.png").convert()
-# Делаем черный цвет прозрачным для спрайта мячика
-ball_image.set_colorkey(BLACK)
+
+
 
 # Рандомайзер для направления мячика с начала игры
 xh = 0
@@ -59,6 +55,14 @@ yh = 0
 xs = 0
 ys = 0
 
+
+class Ball():
+    def __init__(self, x, y, image_path):
+        self.x = x
+        self.y = y
+        self.sprite = pygame.image.load(image_path).convert()
+        # Делаем черный цвет прозрачным для спрайта мячика
+        self.sprite.set_colorkey(BLACK)
 
 # --------- Создание гл. Меню ---------
 class Menu():
@@ -129,6 +133,8 @@ def RandPlay():
         if s == 2:
             SoundHit3.play()
 
+ball = Ball(345, 255, "pictures/Мяч пин-понг.png");
+
 # -------- Главный цикл -----------
 while not done:
     # --- Главный действие цикл
@@ -197,48 +203,65 @@ while not done:
 
     # --- ЛОГИКА
     # Движение мячика в сторону
-    x += xs
-    y += ys
+    ball.x += xs
+    ball.y += ys
 
     # Отталкивание мячика от стен по у
-    if y > 490 or y < 0:
+    if ball.y > 490 or ball.y < 0:
         ys = ys * -1
         # рандомный звук при столкновение верхних стен
+<<<<<<< Updated upstream
         RandPlay()
     if x > 690 or x < 0:
+=======
+        #RandPlay()
+    if ball.x > 690 or ball.x < 0:
+>>>>>>> Stashed changes
         xs = xs * -1
         # рандомный звук при столкновение верхних стен
         RandPlay()
 
     # Зачисление очков при попадание шарика
     # на сторону противника
-    if x > 690:
+    if ball.x > 690:
         xs = 0
         ys = 0
-        x = 345
-        y = 255
+        ball.x = 345
+        ball.y = 255
         score1 += 1
         # Звук гола при проходе мячика за ракетку
         Goal.play()
         y1 = 225
         y2 = 225
-    if x < 0:
+    if ball.x < 0:
         xs = 0
         ys = 0
-        x = 345
-        y = 255
+        ball.x = 345
+        ball.y = 255
         score2 += 1
         # Звук гола при проходе мячика за ракетку
         Goal.play()
         y1 = 225
         y2 = 225
     # Отталкивание мячика от ракеток
+<<<<<<< Updated upstream
     if 30 < x < 33 and y1-10 < y < y1 + 60:
         if 30 < x < 33 and y1-10 < y+10 < y1 + 60:
+=======
+    if 30 < ball.x < 34 and y1-8 < ball.y < y1 + 62:
+        if 30 < ball.x < 34 and y1-8 < ball.y+10 < y1 + 62:
+>>>>>>> Stashed changes
             xs = xs * -1
         #Ускоритель шарика
             xs += 0.1
             ys += 0.1
+<<<<<<< Updated upstream
+=======
+
+    if 660 < ball.x + 10 < 664 and y2-8 < ball.y < y2 + 62:
+        if 660 < ball.x + 10 < 664 and y2-8 < ball.y+10 < y2 + 62:
+            xs = xs * -1
+>>>>>>> Stashed changes
             # Рандомный звук при ударе с ракеткой
             RandPlay()
     if 660 < x + 10 < 663 and y2-10 < y < y2 + 60:
@@ -259,7 +282,7 @@ while not done:
     screen.blit(player_image, [20, y1])
     screen.blit(player_image1, [660, y2])
 
-    screen.blit(ball_image, [x, y])
+    screen.blit(ball.sprite, [ball.x, ball.y])
     screen.blit(text1, [320, 10])
     screen.blit(text2, [363, 10])
     # --- Go ahead and update the screen with what we've drawn.
