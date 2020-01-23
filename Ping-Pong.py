@@ -113,6 +113,8 @@ class Menu():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
+                    elif event.key == pygame.K_SPACE:
+                        done = False
             #    test_s = font.render(On, True, BLACK)
             #    test_s1 = font.render(Off, True, BLACK)
             #    if SoundSettings == 0:
