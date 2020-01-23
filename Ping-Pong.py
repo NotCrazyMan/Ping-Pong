@@ -63,21 +63,23 @@ xs = 0
 ys = 0
 SoundSettings = 0
 
+
 # --------- Создание гл. Меню ---------
 class Menu():
     def __init__(self, x, y, filename):
         self.x = x
         self.y = y
         self.bitmap = pygame.image.load(filename)
+
     def menu(self):
         done = True
         # -- Позиция кнопки Start --
         # Верхний левый угл Start
-        start_pos = (250,150)
+        start_pos = (250, 150)
         s_p_x = start_pos[0]
         s_p_y = start_pos[1]
         # Правый нижний угл Start
-        start_pos1 = (450,200)
+        start_pos1 = (450, 200)
         s_p1_x = start_pos1[0]
         s_p1_y = start_pos1[1]
         # -- Позиция кнопки Quit --
@@ -89,15 +91,6 @@ class Menu():
         # Правый нижний угл Quit
         q_p1_x = quit_pos1[0]
         q_p1_y = quit_pos1[1]
-        # Вкл/Выкл Звука
-        Sound_pos = (662, 4)
-        Sound_pos1 = (694, 36)
-        # Левый верхний угол
-        s_p_x = Sound_pos[0]
-        s_p_y = Sound_pos[1]
-        # Правый нижный угол
-        s_p1_x = Sound_pos1[0]
-        s_p1_y = Sound_pos1[1]
         # ---- Гл. Цикл гл. меню ----
         while done:
             for event in pygame.event.get():
@@ -115,7 +108,7 @@ class Menu():
                     elif q_p_x < posx < q_p1_x and q_p_y < posy < q_p1_y:
                         sys.exit()
                     elif s_p_x < posx < s_p1_x and s_p_y < posy < s_p1_y:
-                            SoundSettings = 1
+                        SoundSettings = 1
                     # Выход из игры через кнопку ESCAPE
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -125,12 +118,14 @@ class Menu():
             #    if SoundSettings == 0:
             #        screen.blit(text_s, [420, 410])
             #    if SoundSettings == 1:
-                    ##screen.blit(text_1, [420, 410])
+            ##screen.blit(text_1, [420, 410])
 
             screen.blit(self.bitmap, (self.x, self.y))
             pygame.display.flip()
+
+
 # Даём координаты и запускаем выше написаный код
-plunt = Menu(0,0,"pictures/Набросок_гл_меню.png" )
+plunt = Menu(0, 0, "pictures/Набросок_гл_меню.png")
 # Применение цикла в классе
 plunt.menu()
 
@@ -142,15 +137,17 @@ if SoundSettings == 0:
     SoundHit2 = pygame.mixer.Sound("music/Звук_Шар2.ogg")
     SoundHit3 = pygame.mixer.Sound("music/Звук_Шар3.ogg")
     Goal = pygame.mixer.Sound("music/Goal.ogg")
+
+
     # Рандомазейр звков для ударов
     def RandPlay():
-            s = random.randrange(0,3)
-            if s == 0:
-                SoundHit1.play()
-            if s == 1:
-                SoundHit2.play()
-            if s == 2:
-                SoundHit3.play()
+        s = random.randrange(0, 3)
+        if s == 0:
+            SoundHit1.play()
+        if s == 1:
+            SoundHit2.play()
+        if s == 2:
+            SoundHit3.play()
 
 # -------- Главный цикл -----------
 while not done:
@@ -169,12 +166,12 @@ while not done:
                 y1s = -3
             elif event.key == pygame.K_s:
                 y1s = 3
-        # Закрывание через ESCAPE
+            # Закрывание через ESCAPE
             elif event.key == pygame.K_ESCAPE:
                 sys.exit()
-        # Принажатии кнопки SPACE скорость начнёт передаваться мячику
+            # Принажатии кнопки SPACE скорость начнёт передаваться мячику
             elif event.key == pygame.K_SPACE:
-# В зависимости от рандома выше, в таком направлении и будет лететь мяч
+                # В зависимости от рандома выше, в таком направлении и будет лететь мяч
                 # по х
                 xh = random.randrange(0, 2)
                 if xh == 0:
@@ -187,7 +184,7 @@ while not done:
                     ys = -2
                 if yh == 1:
                     ys = 2
-    #  Пауза игры
+            #  Пауза игры
             elif event.key == pygame.K_b:
                 xs = 0
                 ys = 0
@@ -227,11 +224,11 @@ while not done:
     if y > 490 or y < 0:
         ys = ys * -1
         # рандомный звук при столкновение верхних стен
-        #RandPlay()
+        # RandPlay()
     if x > 690 or x < 0:
         xs = xs * -1
         # рандомный звук при столкновение верхних стен
-        #RandPlay()
+        # RandPlay()
 
     # Зачисление очков при попадание шарика
     # на сторону противника
@@ -256,28 +253,27 @@ while not done:
         y1 = 225
         y2 = 225
     # Отталкивание мячика от ракеток
-    if 30 < x < 34 and y1-8 < y < y1 + 62:
-        if 30 < x < 34 and y1-8 < y+10 < y1 + 62:
+    if 30 < x < 34 and y1 - 8 < y < y1 + 62:
+        if 30 < x < 34 and y1 - 8 < y + 10 < y1 + 62:
             xs = xs * -1
             # Рандомный звук при ударе с ракеткой
             RandPlay()
 
         if not (xs and ys == 3 and -3):
-            #Ускоритель шарика
+            # Ускоритель шарика
             xs += 0.1
             ys += 0.1
 
-    if 660 < x + 10 < 664 and y2-8 < y < y2 + 62:
-        if 660 < x + 10 < 664 and y2-8 < y+10 < y2 + 62:
+    if 660 < x + 10 < 664 and y2 - 8 < y < y2 + 62:
+        if 660 < x + 10 < 664 and y2 - 8 < y + 10 < y2 + 62:
             xs = xs * -1
             # Рандомный звук при ударе с ракеткой
             RandPlay()
-
+        # Ускоритель и также блокиратор скорости
         if not (xs and ys == 3 or -3):
-            #Ускоритель шарика
+            # Ускоритель шарика
             xs -= 0.1
             ys -= 0.1
-
 
     # Если вы хотите задний фон, поместись здесь
     # Задний фон
